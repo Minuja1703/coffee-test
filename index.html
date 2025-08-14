@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bean & Brew — Coffee House</title>
+    <style>
+      /* --------- Reset & base --------- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        color: #333;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* --------- Variables (colors) --------- */
+      :root {
+        --bg: #fff9f3;
+        --primary: #6f4e37; /* coffee brown */
+        --accent: #d9b38c; /* light caramel */
+        --muted: #7b6b66;
+        --card: #fff;
+        --shadow: 0 6px 18px rgba(15, 15, 15, 0.08);
+      }
+
+      body {
+        background: linear-gradient(180deg, var(--bg) 0%, #fff 100%);
+      }
+
+      /* --------- Header / Nav --------- */
+      header {
+        background: linear-gradient(
+          90deg,
+          rgba(111, 78, 55, 0.06),
+          rgba(217, 177, 140, 0.04)
+        );
+        border-bottom: 1px solid rgba(111, 78, 55, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        background: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 800;
+        box-shadow: var(--shadow);
+      }
+      nav ul {
+        display: flex;
+        gap: 1rem;
+        list-style: none;
+        align-items: center;
+      }
+      nav li a {
+        padding: 0.45rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+      nav li a:hover {
+        background: var(--accent);
+        color: var(--primary);
+      }
+
+      .cta {
+        background: var(--primary);
+        color: #fff;
+        padding: 0.55rem 0.9rem;
+        border-radius: 10px;
+        font-weight: 600;
+        box-shadow: 0 6px 15px rgba(111, 78, 55, 0.12);
+      }
+
+      /* --------- Hero --------- */
+      .hero {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        padding: 3rem 0;
+        flex-wrap: wrap;
+      }
+      .hero-left {
+        flex: 1 1 320px;
+      }
+      .hero h1 {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 0.6rem;
+      }
+      .hero p {
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+      .hero .actions {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .btn-outline {
+        border: 1.5px solid var(--primary);
+        padding: 0.5rem 0.8rem;
+        border-radius: 10px;
+        background: transparent;
+        color: var(--primary);
+      }
+      .hero-right {
+        flex: 0 1 360px;
+        display: flex;
+        justify-content: center;
+      }
+      .cup {
+        width: 320px;
+        height: 220px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #fff, #fff1ea);
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .cup::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.18),
+          transparent 40%
+        );
+        pointer-events: none;
+      }
+      .cup .steam {
+        font-size: 84px;
+        line-height: 1;
+        transform: translateY(-10px);
+        opacity: 0.18;
+      }
+
+      /* --------- Sections / Cards --------- */
+      section {
+        padding: 2rem 0;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .card {
+        background: var(--card);
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(111, 78, 55, 0.05);
+      }
+      .card h3 {
+        color: var(--primary);
+        margin-bottom: 0.4rem;
+      }
+      .price {
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      /* --------- Menu list --------- */
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .menu-item {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+        padding: 0.75rem;
+        background: linear-gradient(180deg, #fff, #fffaf6);
+        border-radius: 10px;
+        border: 1px solid rgba(111, 78, 55, 0.04);
+      }
+      .menu-thumb {
+        width: 62px;
+        height: 62px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #f7e6dd, #fdeee0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .menu-body h4 {
+        margin-bottom: 0.25rem;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* --------- Footer --------- */
+      footer {
+        padding: 1.2rem 0;
+        border-top: 1px solid rgba(111, 78, 55, 0.04);
+        margin-top: 2rem;
+      }
+      .footer-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .social {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+      }
+      .social a {
+        padding: 0.35rem 0.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      /* --------- Responsive tweaks --------- */
+      @media (max-width: 720px) {
+        nav ul {
+          display: none;
+        } /* keep simple mobile nav (no JS) */
+        .nav {
+          justify-content: space-between;
+        }
+        .hero {
+          padding: 1.8rem 0;
+        }
+        .cup {
+          width: 260px;
+          height: 180px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo">B</div>
+          <div>
+            <div style="font-size: 1rem">Bean & Brew</div>
+            <div style="font-size: 0.78rem; color: var(--muted)">
+              Artisan Coffee House
+            </div>
+          </div>
+        </div>
+
+        <nav>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#specials">Specials</a></li>
+            <li><a href="#contact" class="cta">Order Now</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-left">
+          <h1>Hand-roasted coffee, slow brewed with love.</h1>
+          <p>
+            Welcome to Bean & Brew — small-batch roasters and a cozy corner for
+            your morning (or afternoon) ritual. Fresh beans, seasonal blends,
+            and pastries made daily.
+          </p>
+          <div class="actions">
+            <a class="cta" href="#menu">See Menu</a>
+            <a class="btn-outline" href="#about">Learn More</a>
+          </div>
+
+          <!-- Quick highlights -->
+          <div style="display: flex; gap: 0.9rem; margin-top: 1rem">
+            <div class="card" style="padding: 0.6rem">
+              <div style="font-weight: 700; color: var(--primary)">
+                100% Arabica
+              </div>
+              <div class="muted" style="font-size: 0.9rem">
+                Single origin & blends
+              </div>
+            </div>
+            <div class="card" style="padding: 0.6rem">
+              <div style="font-weight: 700; color: var(--primary)">
+                Fresh Bakes
+              </div>
+              <div class="muted" style="font-size: 0.9rem">
+                Made daily in-house
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="cup" role="img" aria-label="cup of coffee">
+            <div style="text-align: center">
+              <div class="steam">☁︎</div>
+              <div
+                style="
+                  font-size: 1.4rem;
+                  font-weight: 700;
+                  color: var(--primary);
+                  margin-top: -12px;
+                "
+              >
+                Café Latte
+              </div>
+              <div style="color: var(--muted); font-size: 0.95rem">
+                Smooth & creamy
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <h2 style="color: var(--primary)">About Us</h2>
+        <p class="muted" style="margin-top: 0.5rem">
+          We roast small batches to highlight each bean's character. From light
+          floral notes to dark cocoa finishes — discover your favorite cup.
+        </p>
+      </section>
+
+      <!-- SPECIALS -->
+      <section id="specials">
+        <h2 style="color: var(--primary)">Weekly Specials</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Caramel Cold Brew</h3>
+            <p class="muted">
+              Slow-steeped cold brew with a house-made caramel drizzle.
+            </p>
+            <div style="margin-top: 0.6rem" class="price">$4.50</div>
+          </div>
+
+          <div class="card">
+            <h3>Espresso Flight</h3>
+            <p class="muted">
+              Three single-shot tasters — explore origin differences.
+            </p>
+            <div style="margin-top: 0.6rem" class="price">$6.00</div>
+          </div>
+
+          <div class="card">
+            <h3>Almond Croissant</h3>
+            <p class="muted">Buttery, flaky, freshly baked.</p>
+            <div style="margin-top: 0.6rem" class="price">$3.25</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENU -->
+      <section id="menu">
+        <h2 style="color: var(--primary)">Menu</h2>
+        <p class="muted" style="margin-top: 0.4rem">
+          Classic drinks and a few house specialties.
+        </p>
+
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-thumb">E</div>
+            <div class="menu-body">
+              <h4>Espresso</h4>
+              <div class="muted">Intense, 30ml single shot</div>
+            </div>
+            <div style="margin-left: auto" class="price">$2.00</div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-thumb">L</div>
+            <div class="menu-body">
+              <h4>Café Latte</h4>
+              <div class="muted">Velvety steamed milk</div>
+            </div>
+            <div style="margin-left: auto" class="price">$3.75</div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-thumb">C</div>
+            <div class="menu-body">
+              <h4>Cold Brew</h4>
+              <div class="muted">12-hour steeped concentrate</div>
+            </div>
+            <div style="margin-left: auto" class="price">$4.00</div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-thumb">T</div>
+            <div class="menu-body">
+              <h4>Chai Tea</h4>
+              <div class="muted">House-spiced, steamed</div>
+            </div>
+            <div style="margin-left: auto" class="price">$3.25</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact">
+        <h2 style="color: var(--primary)">Visit Us</h2>
+        <p class="muted" style="margin-top: 0.4rem">
+          Open daily 7:30 AM — 6:30 PM • 123 Roast Lane, Coffeeville
+        </p>
+
+        <div
+          style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap"
+        >
+          <div class="card" style="min-width: 220px; flex: 1">
+            <h3>Phone</h3>
+            <p class="muted">(+1) 555-0123</p>
+          </div>
+          <div class="card" style="min-width: 220px; flex: 1">
+            <h3>Email</h3>
+            <p class="muted">hello@beanandbrew.com</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div style="font-weight: 700; color: var(--primary)">Bean & Brew</div>
+        <div class="social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Twitter">TW</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
